@@ -1,4 +1,4 @@
-import { Table } from "./components/Builder/Table"
+import { TableCell } from "./components/Builder/TableCell"
 import { Header } from "./components/Header"
 
 function App() {
@@ -6,7 +6,7 @@ function App() {
   return (
     <div className="md:px-8 lg:px-16 font-semibold">
       <Header />
-      <Table />
+      <TableCell />
     </div>
   )
 }

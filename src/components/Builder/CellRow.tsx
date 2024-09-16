@@ -1,34 +1,26 @@
-import React from 'react'
+import { CellRowType } from '../../utils/types'
 import { Cell } from './Cell'
-import { CellRowType } from '../../utils/constants'
-import { PlusIcon } from '../Icon'
-import { useGlobalContext } from '../../context/GlobalContext'
+import { Draggable } from 'react-beautiful-dnd'
 
-export const CellRow = ({cells, isLastRow = false}: CellRowType) => {
-  const { setCells } = useGlobalContext();
-
-  const handleAddRowCell = () => {
-    setCells(prev => {
-      return [...prev, ...prev];
-    })
-  }
+export const CellRow = ({ id, cells }: CellRowType) => {
 
   return (
-    <tr className="relative group/plus">
-        {
-          isLastRow &&
-          <div className="p-2 hidden group-hover/plus:inline bg-white absolute -bottom-4 -left-4 rounded-md shadow-sm border z-10 cursor-pointer"
-                onClick={handleAddRowCell}
+    <Draggable draggableId={'row-' + id} index={id}>
+      {
+        (provided) => 
+          <tr className="relative group/plus"
+              {...provided.draggableProps}
+              {...provided.dragHandleProps}
+              ref={provided.innerRef}
           >
-            <PlusIcon />
-          </div>
-        }
-        <Cell isTitle parentId={0} id={0} value={'Title'} />
-        {
-            cells?.map((cell) => (
-                <Cell parentId={cell.parentId} id={cell.id} value={cell.value} />
-            ))
-        }
-    </tr>
+            <Cell isTitle id={0} parentId={id} value={'Title ' +  id} />
+            {
+                cells?.map((cell) => (
+                    <Cell key={cell.id} id={cell.id} parentId={id} value={cell.value} />
+                ))
+            }
+          </tr>
+      }
+    </Draggable>
   )
 }

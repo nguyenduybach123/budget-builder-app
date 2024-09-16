@@ -1,11 +1,17 @@
+
+export type CellGroupType = {
+    id: string,
+    rowIds: Array<string>,
+    rows: {[key: string]: CellRowType}
+}
+
 export type CellRowType = {
-    isLastRow?: boolean,
+    id: number,
     cells?: Array<CellType>
 }
 
 export type CellType = {
     id: number,
-    parentId: number,
     value?: string,
     isTitle?: boolean
 }

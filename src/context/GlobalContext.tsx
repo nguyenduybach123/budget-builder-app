@@ -1,28 +1,52 @@
 
 import React from 'react'
-import { CellPositionType, CellType } from '../utils/constants';
+import { CellGroupType, CellPositionType, CellType } from '../utils/types';
 
-const cellsData: Array<CellType> = [
+const initalGroup = ['group-1'];
+
+const initalCells: Array<CellType> = [
     {
         id: 1,
-        parentId: 1,
         value: ""
     },
     {
         id: 2,
-        parentId: 1,
         value: ""
     },
     {
         id: 3,
-        parentId: 1,
         value: ""
-    }
+    },
 ]
 
+const groups: { [key: string]: CellGroupType } = {
+    'group-1': {
+        id: 'group-1',
+        rowIds: ['row-1','row-2','row-3'],
+        rows: {
+            'row-1': {
+                id: 1,
+                cells: initalCells
+            },
+            'row-2': {
+                id: 2,
+                cells: initalCells
+            },
+            'row-3': {
+                id: 3,
+                cells: initalCells
+            },
+        }
+    }
+}
+
 type GlobalContextType = {
-    cells: Array<CellType>,
-    setCells: React.Dispatch<React.SetStateAction<CellType[]>>,
+    currentGroup: string, 
+    setCurrentGroup: React.Dispatch<React.SetStateAction<string>>,
+    cellGroups: { [key: string]: CellGroupType },
+    setCellGroups:  React.Dispatch<React.SetStateAction<{[key: string]: CellGroupType }>>,
+    groupIds: Array<string>, 
+    setGroupIds: React.Dispatch<React.SetStateAction<Array<string>>>,
     currentPos: CellPositionType | undefined,
     setCurrentPos:React.Dispatch<React.SetStateAction<CellPositionType | undefined>>
 }
@@ -38,12 +62,16 @@ export const useGlobalContext = () => {
 };
 
 export const GlobalProvider = ({children}: {children: React.ReactNode}) => {
-    const [cells, setCells] = React.useState<Array<CellType>>(cellsData);
+    const [currentGroup, setCurrentGroup] = React.useState<string>('group-1');
+    const [groupIds, setGroupIds] = React.useState(initalGroup);
+    const [cellGroups, setCellGroups] = React.useState<{ [key: string]: CellGroupType }>(groups)
     const [currentPos, setCurrentPos] = React.useState<CellPositionType>();
 
     return (
         <GlobalContext.Provider value={{
-                                    cells, setCells,
+                                    currentGroup, setCurrentGroup,
+                                    cellGroups, setCellGroups,
+                                    groupIds, setGroupIds,
                                     currentPos, setCurrentPos
                                 }}
         >
