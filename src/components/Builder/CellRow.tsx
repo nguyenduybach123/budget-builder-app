@@ -2,10 +2,10 @@ import { CellRowType } from '../../utils/types'
 import { Cell } from './Cell'
 import { Draggable } from 'react-beautiful-dnd'
 
-export const CellRow = ({ id, cells }: CellRowType) => {
+export const CellRow = ({ id, index, cells }: CellRowType & {index: number}) => {
 
   return (
-    <Draggable draggableId={'row-' + id} index={id}>
+    <Draggable draggableId={'row-' + id} index={index}>
       {
         (provided) => 
           <tr className="relative group/plus"

@@ -9,8 +9,14 @@ export const Header = () => {
                 Logo
             </div>
             <div className="flex justify-between">
-                <MonthPicker />
-                <MonthPicker />
+                <div className="mb-1">
+                  <h3 className="text-white">Start</h3>
+                  <MonthPicker isMonthPickerStart />
+                </div>
+                <div className="ml-4 mb-1">
+                  <h3 className="text-white">End</h3>
+                  <MonthPicker />
+                </div>
             </div>
         </div>
     </div>

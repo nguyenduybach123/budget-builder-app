@@ -17,7 +17,8 @@ export type CellType = {
 }
 
 export type CellPositionType  = {
-    parentId: number,
+    groupId: string,
+    rowId: number,
     cellId: number
 }
 
