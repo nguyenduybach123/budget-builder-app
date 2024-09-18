@@ -3,8 +3,19 @@ import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd'
 import { useGlobalContext } from '../../context/GlobalContext'
 import { CellGroup } from './CellGroup';
 
+const months: Array<string> = [
+  "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+];
+
 export const TableCell = () => {
-  const { groupIds, cellGroups, setCellGroups, currentPos, setCurrentPos } = useGlobalContext();
+  const { groupIds, 
+          setCurrentGroup,
+          cellGroups, setCellGroups,
+          currentPos, setCurrentPos,
+          startMonth, endMonth
+        } = useGlobalContext();
+
   const groupRef = React.useRef<HTMLDivElement>(null);
 
   const handleOnDragEnd = (result: DropResult) => {
@@ -80,36 +91,39 @@ export const TableCell = () => {
     <DragDropContext onDragEnd={handleOnDragEnd}
                      onDragStart={() => {console.log("Drag")}}
     >
-      {
-        groupIds.map(id => (
-          <Droppable droppableId={id}>
+      <table className="w-auto border-separate border-slate-400">
+        <thead>
+          <tr>
+            <th>Title</th>
             {
-              (provided) =>
-                <table className="w-full border-separate border-2 border-slate-400"
-                        {...provided.droppableProps}
-                        ref={provided.innerRef}
-                        onKeyDown={handleOnMoveCell}
-                        onMouseDown={handleOnMouseDown}
-                >
-                  <thead>
-                    <tr>
-                      <th>Title</th>
-                      <th>Jan</th>
-                      <th>Feb</th>
-                      <th>Mar</th>
-                    </tr>
-                  </thead>
-                  {
-                    groupIds.map(group => (
-                      <CellGroup key={group} id={group} title='Income' />
-                    ))
-                  }
-                  {provided.placeholder}
-                </table>
+              months.map((month, index) => {
+                if(index + 1 >= startMonth && index + 1 <= endMonth)
+                  return (
+                    <th>{month}</th>
+                  )
+              })
             }
-          </Droppable>
-        ))
-      }
+          </tr>
+        </thead>
+        {
+          groupIds.map(id => (
+              <Droppable key={id} droppableId={id}>
+              {
+                (provided) =>
+                    <tbody  {...provided.droppableProps}
+                            ref={provided.innerRef}
+                            onKeyDown={handleOnMoveCell}
+                            onMouseDown={handleOnMouseDown}
+                            onClick={() => setCurrentGroup(id)}
+                    >
+                      <CellGroup key={id} id={id} title={cellGroups[id].title} />
+                      {provided.placeholder}
+                    </tbody>
+              }
+              </Droppable>
+          ))
+        }
+      </table>
     </DragDropContext>
   )
 }

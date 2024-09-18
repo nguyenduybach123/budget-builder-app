@@ -2,41 +2,20 @@
 import React from 'react'
 import { CellGroupType, CellPositionType, CellType } from '../utils/types';
 
-const initalGroup = ['group-1'];
+const initalGroup = ['group-1','group-2'];
 
-export const monthValues: { [key: number]: string } = {
-    1: 'Jan',
-    2: 'Feb',
-    3: 'Mar',
-    4: 'Apr',
-    5: 'May',
-    6: 'Jun',
-    7: 'Jul',
-    8: 'Aug',
-    9: 'Sep',
-    10: 'Oct',
-    11: 'Nov',
-    12: 'Dec',
-};
-
-const initalCells: Array<CellType> = [
-    {
-        id: 1,
+const initalCells: Array<CellType> = [];
+for (let i = 1; i <= 12; i++) {
+    initalCells.push({
+        id: i,
         value: ""
-    },
-    {
-        id: 2,
-        value: ""
-    },
-    {
-        id: 3,
-        value: ""
-    },
-]
+    });
+}
 
 const groups: { [key: string]: CellGroupType } = {
     'group-1': {
         id: 'group-1',
+        title: "Income",
         rowIds: ['row-1','row-2','row-3'],
         rows: {
             'row-1': {
@@ -52,7 +31,26 @@ const groups: { [key: string]: CellGroupType } = {
                 cells: initalCells
             },
         }
-    }
+    },
+    'group-2': {
+        id: 'group-2',
+        title: "Outcome",
+        rowIds: ['row-1','row-2','row-3'],
+        rows: {
+            'row-1': {
+                id: 1,
+                cells: initalCells
+            },
+            'row-2': {
+                id: 2,
+                cells: initalCells
+            },
+            'row-3': {
+                id: 3,
+                cells: initalCells
+            },
+        }
+    },
 }
 
 type GlobalContextType = {
@@ -81,8 +79,8 @@ export const useGlobalContext = () => {
 };
 
 export const GlobalProvider = ({children}: {children: React.ReactNode}) => {
-    const [startMonth, setStartMonth] = React.useState<number>(0);
-    const [endMonth, setEndMonth] = React.useState<number>(0);
+    const [startMonth, setStartMonth] = React.useState<number>(1);
+    const [endMonth, setEndMonth] = React.useState<number>(1);
     const [currentGroup, setCurrentGroup] = React.useState<string>('group-1');
     const [groupIds, setGroupIds] = React.useState(initalGroup);
     const [cellGroups, setCellGroups] = React.useState<{ [key: string]: CellGroupType }>(groups)

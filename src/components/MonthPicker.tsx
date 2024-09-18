@@ -1,24 +1,22 @@
-import { monthValues, useGlobalContext } from "../context/GlobalContext";
+import { useGlobalContext } from "../context/GlobalContext";
+import { monthValues } from "../utils/constants";
 
 const months = [1,2,3,4,5,6,7,8,9,10,11,12];
 
 const NUMBER_OF_MONTHS = 12;
 
-export const MonthPicker = ({isMonthPickerStart = false}: {isMonthPickerStart?: boolean}) => {
-  const { startMonth, setStartMonth, setEndMonth } = useGlobalContext();
+export const MonthPicker = ({isStart = false, onPicker}: {isStart?: boolean, onPicker: (value: string) => void}) => {
+  const { startMonth } = useGlobalContext();
 
-  const handleOnChangeMonth = (monthValue: string) => {
-    if(isMonthPickerStart)
-      setStartMonth(parseInt(monthValue, 10));
-    else
-      setEndMonth(parseInt(monthValue, 10));
+  const handleOnPicker = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    onPicker(event.target.value);
   }
 
   return (
     <div>
-        <select className="py-2 px-4 rounded-md" onChange={(e) => handleOnChangeMonth(e.target.value)}>
+        <select className="py-2 px-4 rounded-md" onChange={handleOnPicker} >
             {
-              (isMonthPickerStart) ?
+              (isStart) ?
                 months.map(month => {
                     return (
                       <option value={month}>{monthValues[month]}</option>

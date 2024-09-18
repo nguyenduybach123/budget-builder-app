@@ -1,6 +1,7 @@
 
 export type CellGroupType = {
     id: string,
+    title: string,
     rowIds: Array<string>,
     rows: {[key: string]: CellRowType}
 }
