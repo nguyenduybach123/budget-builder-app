@@ -2,12 +2,15 @@ import { useGlobalContext } from '../context/GlobalContext';
 import { MonthPicker } from './MonthPicker'
 
 export const Header = () => {
-  const { setStartMonth, setEndMonth } = useGlobalContext();
+  const { setStartMonth, endMonth, setEndMonth } = useGlobalContext();
 
   const handleStartPicker = (value: string) => {
     const pickerValue = parseInt(value);
 
     if(!pickerValue)
+      return;
+
+    if(pickerValue > endMonth)
       return;
 
     setStartMonth(pickerValue);

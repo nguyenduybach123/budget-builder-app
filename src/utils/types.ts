@@ -1,25 +1,28 @@
+export type TotalGroupType = {
+    totalColumns: Array<number>
+}
 
 export type CellGroupType = {
     id: string,
     title: string,
     rowIds: Array<string>,
-    rows: {[key: string]: CellRowType}
+    rows: {[key: string]: CellRowType},
 }
 
 export type CellRowType = {
-    id: number,
-    cells?: Array<CellType>
+    id: string,
+    cells: Array<CellType>
 }
 
 export type CellType = {
     id: number,
-    value?: string,
+    value: string,
     isTitle?: boolean
 }
 
 export type CellPositionType  = {
     groupId: string,
-    rowId: number,
+    rowId: string,
     cellId: number
 }
 

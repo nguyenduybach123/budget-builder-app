@@ -1,9 +1,10 @@
+import React from 'react'
 import { useGlobalContext } from '../../context/GlobalContext'
 import { CellRowType } from '../../utils/types'
 import { Cell } from './Cell'
 import { Draggable } from 'react-beautiful-dnd'
 
-export const CellRow = ({ id, index, cells }: CellRowType & {index: number}) => {
+export const CellRow = ({ id, groupId, index, cells }: CellRowType & {index: number, groupId: string}) => {
   const {startMonth, endMonth} = useGlobalContext();
 
   return (
@@ -15,12 +16,12 @@ export const CellRow = ({ id, index, cells }: CellRowType & {index: number}) => 
               {...provided.dragHandleProps}
               ref={provided.innerRef}
           >
-            <Cell isTitle id={0} parentId={id} value={'Title ' +  id} />
+            <Cell isTitle id={0} rowId={id} groupId={groupId} value={'Title ' +  id} />
             {
                 cells?.map(cell => {
                   if(cell.id >= startMonth && cell.id <= endMonth)
                     return (
-                      <Cell key={cell.id} id={cell.id} parentId={id} value={cell.value} />
+                      <Cell key={cell.id} id={cell.id} rowId={id} groupId={groupId} value={cell.value} />
                     )
                 })
             }
