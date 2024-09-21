@@ -5,8 +5,10 @@ function App() {
 
   return (
     <div className="md:px-8 lg:px-16 font-semibold">
-      <Header />
-      <TableCell />
+      <div className="mx-auto">
+        <Header />
+        <TableCell />
+      </div>
     </div>
   )
 }

@@ -1,14 +1,14 @@
-import React from 'react'
-import { useGlobalContext } from '../../context/GlobalContext'
-import { CellRowType } from '../../utils/types'
-import { Cell } from './Cell'
 import { Draggable } from 'react-beautiful-dnd'
+
+import { Cell } from './Cell'
+import { CellRowType } from '../../utils/types'
+import { useGlobalContext } from '../../context/GlobalContext'
 
 export const CellRow = ({ id, groupId, index, cells }: CellRowType & {index: number, groupId: string}) => {
   const {startMonth, endMonth} = useGlobalContext();
 
   return (
-    <Draggable draggableId={'row-' + id} index={index}>
+    <Draggable draggableId={id} index={index}>
       {
         (provided) => 
           <tr className="relative group/plus"

@@ -1,6 +1,7 @@
-import { useGlobalContext } from '../../context/GlobalContext';
 import { v4 as uuidv4 } from 'uuid';
+
 import { CellType } from '../../utils/types';
+import { useGlobalContext } from '../../context/GlobalContext';
 
 export const CellMenu = ({groupId, rowId}: {groupId: string, rowId: string}) => {
     const { cellGroups, setCellGroups } = useGlobalContext();

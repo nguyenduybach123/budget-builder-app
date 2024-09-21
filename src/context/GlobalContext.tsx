@@ -1,16 +1,10 @@
 
 import React from 'react'
-import { CellGroupType, CellPositionType, CellType, TotalGroupType } from '../utils/types';
+
+import { initalCells } from '../utils/constants';
+import { CellGroupType, CellPositionType, TotalGroupType } from '../utils/types';
 
 const initalGroup = ['group-1'];
-
-const initalCells: Array<CellType> = [];
-for (let i = 1; i <= 12; i++) {
-    initalCells.push({
-        id: i,
-        value: ""
-    });
-}
 
 const groups: { [key: string]: CellGroupType } = {
     'group-1': {

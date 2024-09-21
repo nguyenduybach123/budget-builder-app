@@ -1,4 +1,3 @@
-import React from 'react'
 import { IconType } from '../utils/types'
 
 export const CaretRightIcon = ({width = "1rem", height = "1rem", className}: IconType) => {
@@ -16,3 +15,4 @@ export const PlusIcon = ({width = "1rem", height = "1rem", className}: IconType)
     </svg>
   )
 }
+

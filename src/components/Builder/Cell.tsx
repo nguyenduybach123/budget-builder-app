@@ -1,10 +1,11 @@
-import {  CellGroupType, CellType } from '../../utils/types'
-import { useGlobalContext } from '../../context/GlobalContext'
-import cn from 'classnames'
 import React from 'react';
+import cn from 'classnames'
+
 import { Popup } from '../Popup';
 import { CellMenu } from './CellMenu';
 import debounce from '../../hooks/debounce';
+import { useGlobalContext } from '../../context/GlobalContext'
+import {  CellGroupType, CellType } from '../../utils/types'
 
 export const Cell = ({id, rowId, groupId, isTitle = false }: CellType & {rowId: string, groupId: string}) => {
     const {
@@ -12,9 +13,12 @@ export const Cell = ({id, rowId, groupId, isTitle = false }: CellType & {rowId: 
         currentGroup,
         currentPos, setCurrentPos,
      } = useGlobalContext();
+    
+    const cellRef = React.useRef<HTMLTableDataCellElement>(null);
+    const cellInputRef = React.useRef<HTMLInputElement>(null);
     const [cellValue, setCellValue] = React.useState("");
     const [isOpenPopup, setIsOpenPopup] = React.useState(false);
-    const cellRef = React.useRef<HTMLInputElement>(null);
+    const [posPopup, setPosPopup] = React.useState({x: 0, y: 0});
 
     const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
@@ -56,6 +60,7 @@ export const Cell = ({id, rowId, groupId, isTitle = false }: CellType & {rowId: 
 
     const handleOpenPopup = (event: React.MouseEvent) => {
         event.preventDefault();
+        setPosPopup({x: event.clientX, y: event.clientY});
         setIsOpenPopup(true);
     }
 
@@ -65,24 +70,25 @@ export const Cell = ({id, rowId, groupId, isTitle = false }: CellType & {rowId: 
     
     React.useEffect(() => {
         if(id === currentPos.cellId && rowId === currentPos.rowId && groupId === currentGroup)
-            cellRef.current?.focus();
+            cellInputRef.current?.focus();
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[currentPos])
 
     return (
-        <td className={cn("relative h-10 w-32 max-w-32 border-2 hover:border-indigo-500/100 hover:bg-slate-300 group/title cursor-cell", (id === currentPos?.cellId && rowId === currentPos.rowId && groupId === currentGroup) ? "border-indigo-500/100" : "border-indigo-500/50")}
+        <td className={cn("relative h-10 w-32 max-w-32 border-2 hover:border-indigo-500/100 hover:bg-slate-300 group/title cursor-cell", (id === currentPos?.cellId && rowId === currentPos.rowId && groupId === currentGroup) ? "border-4 border-indigo-500/100" : "border-indigo-500/50")}
             onClick={() => {setCurrentPos({cellId: id, rowId: rowId, groupId: groupId})}}
             onContextMenu={handleOpenPopup}
-            onBlur={handleClosePopup}
+            ref={cellRef}
         >
             {
-                isOpenPopup && 
-                    <Popup onClick={handleClosePopup}>
+                isOpenPopup &&
+                    <Popup x={posPopup.x - (cellRef.current?.getBoundingClientRect().left || 0)} 
+                           y={posPopup.y - (cellRef.current?.getBoundingClientRect().top || 0)} onClick={handleClosePopup}>
                         <CellMenu groupId={groupId} rowId={rowId} />
                     </Popup>
             }
-            <input ref={cellRef}
-                   className={cn("w-full h-full outline-none border-none",
+            <input ref={cellInputRef}
+                   className={cn("w-full h-full px-1 outline-none border-none",
                                 (cellValue !== "" ? "caret-current" : "caret-transparent"),
                                 (id === currentPos?.cellId && rowId === currentPos.rowId && groupId === currentGroup) ? "pointer-events-auto" : "pointer-events-none")}
                    onChange={handleOnChange}

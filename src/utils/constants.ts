@@ -1,3 +1,12 @@
+import { CellType } from "./types";
+
+export const initalCells: Array<CellType> = [];
+for (let i = 1; i <= 12; i++) {
+    initalCells.push({
+        id: i,
+        value: ""
+    });
+}
 
 export const monthValues: { [key: number]: string } = {
     1: 'Jan',
@@ -13,3 +22,5 @@ export const monthValues: { [key: number]: string } = {
     11: 'Nov',
     12: 'Dec',
 };
+
+
